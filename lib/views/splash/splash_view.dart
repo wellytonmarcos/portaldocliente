@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:criar_projeto/constants/colors_constants.dart';
-import 'package:criar_projeto/controllers/splash_controller.dart';
-import 'package:criar_projeto/utils/my_navigator_util.dart';
+import 'package:portaldocliente/constants/colors_constants.dart';
+import 'package:portaldocliente/controllers/splash_controller.dart';
+import 'package:portaldocliente/utils/my_navigator_util.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {
@@ -10,23 +10,22 @@ class SplashView extends StatefulWidget {
   _SplashViewState createState() => _SplashViewState();
 }
 
-class _SplashViewState extends State<SplashView> {  
+class _SplashViewState extends State<SplashView> {
   bool _isLogged;
   SplashController _splashController = SplashController();
   @override
   void initState() {
     super.initState();
-    _splashController.isLogged().then((value){
-      if(value == true)
-      {
-        MyNavigator.goToHome(context);
-      }
-      else{
-        MyNavigator.goToLogin(context);
-      }
+    _splashController.isLogged().then((value) {
+      // if(value == true)
+      // {
+      //   MyNavigator.goToHome(context);
+      // }
+      // else{
+      //   MyNavigator.goToLogin(context);
+      // }
     });
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +74,8 @@ class _SplashViewState extends State<SplashView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                      valueColor:
+                          new AlwaysStoppedAnimation<Color>(kPrimaryColor),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),

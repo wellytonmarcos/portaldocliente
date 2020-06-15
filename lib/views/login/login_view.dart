@@ -1,4 +1,4 @@
-import 'package:criar_projeto/stores/auth_store.dart';
+import 'package:portaldocliente/stores/auth_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,11 +1,9 @@
-
-import 'package:criar_projeto/models/cliente_model.dart';
-import 'package:criar_projeto/services/local_storage_service.dart';
+import 'package:portaldocliente/models/cliente_model.dart';
+import 'package:portaldocliente/services/local_storage_service.dart';
 
 import 'cliente_model.dart';
 
 class AuthModel {
-  
   LocalStorageService _localStorage = LocalStorageService();
   bool isLogged = false;
   bool remeberMe = false;
@@ -13,13 +11,7 @@ class AuthModel {
   ClienteModel cliente;
   AuthModel();
 
-  Future<bool> checkLogged() async 
-  {    
+  Future<bool> checkLogged() async {
     return await _localStorage.get('isLogged') ?? false;
   }
 }
-
-
-
-
-

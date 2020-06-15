@@ -1,7 +1,7 @@
-import 'package:criar_projeto/stores/auth_store.dart';
-import 'package:criar_projeto/views/home/home_view.dart';
-import 'package:criar_projeto/views/login/login_view.dart';
-import 'package:criar_projeto/views/splash/splash_view.dart';
+import 'package:portaldocliente/stores/auth_store.dart';
+import 'package:portaldocliente/views/home/home_view.dart';
+import 'package:portaldocliente/views/login/login_view.dart';
+import 'package:portaldocliente/views/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,14 +25,13 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SplashView(),
-      routes: routes
-    ),
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: SplashView(),
+          routes: routes),
     );
   }
 }

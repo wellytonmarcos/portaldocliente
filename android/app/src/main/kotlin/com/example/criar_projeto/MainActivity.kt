@@ -1,4 +1,4 @@
-package com.example.criar_projeto
+package br.com.gruposn.portaldocliente
 
 import io.flutter.embedding.android.FlutterActivity
 
