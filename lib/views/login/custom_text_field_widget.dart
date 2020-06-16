@@ -26,9 +26,7 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Controller");
-    print(defaultValue);
-    controller.text = defaultValue ?? "";
+    //controller.text = defaultValue ?? "";
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,

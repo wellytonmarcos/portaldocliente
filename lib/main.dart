@@ -1,11 +1,13 @@
+import 'package:portaldocliente/controllers/login_controller.dart';
 import 'package:portaldocliente/stores/auth_store.dart';
-import 'package:portaldocliente/stores/login_store.dart';
 import 'package:portaldocliente/views/home/home_view.dart';
 import 'package:portaldocliente/views/login/login_view.dart';
 import 'package:portaldocliente/views/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'constants/colors_constants.dart';
+import 'models/auth_model.dart';
 
 var routes = <String, WidgetBuilder>{
   "/login": (BuildContext context) => LoginView(),
@@ -30,9 +32,15 @@ class PortalDoCliente extends StatefulWidget {
 }
 
 class _PortalDoClienteState extends State<PortalDoCliente> {
+  final AuthModel _auth = AuthModel();
   @override
   void initState() {
     _portraitModeOnly();
+    try {
+      _auth.loadSettings();
+    } catch (e) {
+      print("Erro ao carregar Configurações: $e");
+    }
     super.initState();
   }
 
@@ -41,18 +49,17 @@ class _PortalDoClienteState extends State<PortalDoCliente> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<AuthStore>.value(
-          value: AuthStore(),
-        ),
-        Provider<LoginStore>.value(
-          value: LoginStore(),
+        ChangeNotifierProvider<AuthModel>.value(value: _auth),
+        ChangeNotifierProvider<LoginController>.value(
+          value: LoginController(),
         ),
       ],
       child: MaterialApp(
           title: 'Flutter Demo',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primaryColor: kAccentColor,
+            backgroundColor: kBackgroundColor,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: SplashView(),
