@@ -1,0 +1,56 @@
+import 'package:mobx/mobx.dart';
+part 'login_store.g.dart';
+
+class LoginStore = _LoginStore with _$LoginStore;
+
+abstract class _LoginStore with Store {
+  @observable
+  bool rememberMe = false;
+
+  @observable
+  String email = "";
+
+  @observable
+  String password = "";
+
+  @observable
+  bool passwordVisible = false;
+
+  @observable
+  bool loading = false;
+
+  @action
+  void setEmail(String _email) => email = _email;
+
+  @action
+  void setPassword(String value) => password = value;
+
+  @action
+  void setRememberMe(bool _rememberMe) => rememberMe = _rememberMe;
+
+  @action
+  void toggleRemeberMe() => rememberMe = !rememberMe;
+
+  @action
+  void togglePasswordVisible() => passwordVisible = !passwordVisible;
+
+  @computed
+  bool get isPasswordValid => password.length > 6;
+
+  @computed
+  Function get loginPressed =>
+      (isEmailValid && isPasswordValid && !loading) ? null : null;
+
+  @computed
+  bool get isEmailValid => RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(email);
+
+  @computed
+  bool get isFormValid => isPasswordValid && isEmailValid;
+
+  @computed
+  bool get isVisiblePassword => passwordVisible;
+  @computed
+  bool get isRememberMe => rememberMe;
+}

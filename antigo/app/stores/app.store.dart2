@@ -1,0 +1,87 @@
+import 'package:mobx/mobx.dart';
+import 'package:portaldocliente/app/models/auth_model.dart';
+import 'package:portaldocliente/app/services/shared_preferences_service.dart';
+part 'app.store.g.dart';
+
+class AppStore = _AppStore with _$AppStore;
+
+abstract class _AppStore with Store {
+  _AppStore();
+
+  SharedLocalStorageService localStorage = new SharedLocalStorageService();
+  @observable
+  String email = "";
+  @observable
+  String password = "";
+  @observable
+  bool passwordVisible = false;
+  @observable
+  bool rememberMe = false;
+  @observable
+  bool loading = false;
+  @observable
+  bool loggedIn = false;
+
+  @action
+  void setEmail(String value) => email = value;
+  @action
+  void setPassword(String value) => password = value;
+  @action
+  void setRememberMe(bool value) => rememberMe = value;
+  @action
+  void togglePasswordVisible() => passwordVisible = !passwordVisible;
+  @action
+  void toggleRemeberMe() {
+    rememberMe = !rememberMe;
+    localStorage.put("remember_me", rememberMe);
+  }
+
+  @action
+  Future<void> login() async {
+    loading = true;
+    if (rememberMe) {
+      localStorage.put("saved_email", email);
+    }
+    AuthModel auth = AuthModel();
+    var result = await auth.login(email: email, password: password);
+    if (result) {
+      var Cliente = localStorage.get("cliente_data");
+      print(Cliente);
+      loggedIn = true;
+    }
+    loading = false;
+  }
+
+  @computed
+  bool get isPasswordValid => password.length > 6;
+
+  @computed
+  Function get loginPressed =>
+      (isEmailValid && isPasswordValid && !loading) ? login : null;
+
+  @computed
+  bool get isEmailValid => RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(email);
+
+  @computed
+  bool get isFormValid => isPasswordValid && isEmailValid;
+
+  @computed
+  bool get isVisiblePassword => passwordVisible;
+  @computed
+  bool get isRememberMe => rememberMe;
+
+  void loadSettings() async {
+    try {
+      email = await localStorage.get("saved_email") ?? "";
+      rememberMe = await localStorage.get("remember_me") ?? false;
+      print('Carregando config $email e $rememberMe');
+      setEmail(email);
+      setRememberMe(rememberMe);
+    } catch (e) {
+      print('Exceção ao carregar dados do email e remenber me');
+      print(e);
+    }
+  }
+}

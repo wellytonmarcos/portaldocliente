@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:portaldocliente/constants/colors_constants.dart';
 import 'package:portaldocliente/controllers/splash_controller.dart';
 import 'package:portaldocliente/utils/my_navigator_util.dart';
+import 'package:portaldocliente/utils/custom_text_util.dart';
+import 'package:portaldocliente/views/globals_components/logo_portal_component.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {
@@ -17,13 +19,11 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     _splashController.isLogged().then((value) {
-      // if(value == true)
-      // {
-      //   MyNavigator.goToHome(context);
-      // }
-      // else{
-      //   MyNavigator.goToLogin(context);
-      // }
+      if (value == true) {
+        Timer(Duration(seconds: 2), () => MyNavigator.goToHome(context));
+      } else {
+        Timer(Duration(seconds: 2), () => MyNavigator.goToLogin(context));
+      }
     });
   }
 
@@ -37,42 +37,39 @@ class _SplashViewState extends State<SplashView> {
             decoration: BoxDecoration(color: kBackgroundColor),
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 flex: 2,
                 child: Container(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: kPrimaryColor,
-                        radius: 50.0,
-                        child: Icon(
-                          Icons.shopping_cart,
-                          color: Colors.greenAccent,
-                          size: 50.0,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                      ),
-                      Text(
-                        'Bem Vindo',
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0),
-                      )
+                      getLogoPortal(context),
                     ],
                   ),
                 ),
               ),
               Expanded(
                 flex: 1,
+                child: Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      CustomText(
+                          "Bem Vindo", FontWeight.w400, kPrimaryColor, 30),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                    ),
                     CircularProgressIndicator(
                       valueColor:
                           new AlwaysStoppedAnimation<Color>(kPrimaryColor),
@@ -80,15 +77,8 @@ class _SplashViewState extends State<SplashView> {
                     Padding(
                       padding: EdgeInsets.only(top: 20.0),
                     ),
-                    Text(
-                      'Carregando Informações',
-                      softWrap: true,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18.0,
-                          color: kPrimaryColor),
-                    )
+                    CustomText(
+                        "Carregando", FontWeight.w400, kPrimaryColor, 20),
                   ],
                 ),
               )

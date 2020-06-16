@@ -1,40 +1,55 @@
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:portaldocliente/constants/colors_constants.dart';
-import 'package:portaldocliente/controllers/login_controller.dart';
-import 'package:portaldocliente/stores/auth_store.dart';
 import 'package:flutter/material.dart';
-import 'package:portaldocliente/stores/login_store.dart';
-import 'package:provider/provider.dart';
-import 'package:portaldocliente/utils/my_navigator_util.dart';
-import 'package:portaldocliente/utils/custom_text_util.dart';
-import 'package:portaldocliente/views/globals_components/logo_portal_component.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
-import 'custom_icon_button_widget.dart';
-import 'custom_text_field_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobx/mobx.dart';
+import 'package:portaldocliente/app/constants/color_constant.dart';
+import 'package:portaldocliente/app/helpers/custom_text_widget.dart';
+import 'package:portaldocliente/app/stores/app.store.dart';
+import 'package:portaldocliente/app/views/home/home.view.dart';
+import 'package:provider/provider.dart';
+
+import 'components/custom_icon_button_widget.dart';
+import 'components/custom_text_field_widget.dart';
+import 'components/login_logo_widget.dart';
 
 class LoginView extends StatefulWidget {
-  @override
-  _LoginViewState createState() => _LoginViewState();
+  LoginViewState createState() => LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  LoginController _loginController = LoginController();
-  LoginStore loginStore = LoginStore();
-
-  // TextEditingController emailController = TextEditingController();
-  // TextEditingController passwordController = TextEditingController();
+class LoginViewState extends State<LoginView> {
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerPassword = TextEditingController();
+  AppStore loginStore;
 
   @override
-  void initState() {
+  initState() {
     super.initState();
-    _loginController.initSettings();
+  }
+
+  ReactionDisposer disposer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    loginStore = Provider.of<AppStore>(context);
+
+    autorun((_) {
+      loginStore.loadSettings();
+    });
+
+    disposer = reaction((_) => loginStore.loggedIn, (loggedIn) {
+      print('Se está logado');
+      if (loggedIn)
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => HomeView()));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var authStore = Provider.of<AuthStore>(context);
-
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -52,7 +67,7 @@ class _LoginViewState extends State<LoginView> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            getLogoPortal(context),
+                            getLoginLogoPortal(context),
                             ListTile(title: Observer(builder: (_) {
                               return CustomTextField(
                                 hint: 'E-mail',
@@ -60,7 +75,7 @@ class _LoginViewState extends State<LoginView> {
                                 textInputType: TextInputType.emailAddress,
                                 onChanged: loginStore.setEmail,
                                 enabled: true,
-                                controller: _loginController.emailController,
+                                controller: _controllerEmail,
                                 defaultValue: loginStore.email,
                               );
                             })),
@@ -77,8 +92,7 @@ class _LoginViewState extends State<LoginView> {
                                     iconData: Icons.visibility,
                                     onTap: loginStore.togglePasswordVisible,
                                   ),
-                                  controller:
-                                      _loginController.passwordController,
+                                  controller: _controllerPassword,
                                   defaultValue: loginStore.password,
                                 );
                               }),
@@ -91,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                                   return Switch.adaptive(
                                     activeColor: kPrimaryColor,
                                     onChanged: (bool value) {
-                                      _loginController.toggleRememberMe(value);
+                                      loginStore.toggleRemeberMe();
                                     },
                                     value: loginStore.isRememberMe,
                                   );
@@ -142,5 +156,11 @@ class _LoginViewState extends State<LoginView> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
   }
 }
