@@ -1,5 +1,4 @@
 import 'package:portaldocliente/controllers/login_controller.dart';
-import 'package:portaldocliente/stores/auth_store.dart';
 import 'package:portaldocliente/views/home/home_view.dart';
 import 'package:portaldocliente/views/login/login_view.dart';
 import 'package:portaldocliente/views/splash/splash_view.dart';
@@ -55,7 +54,7 @@ class _PortalDoClienteState extends State<PortalDoCliente> {
         ),
       ],
       child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Portal do Cliente',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primaryColor: kAccentColor,

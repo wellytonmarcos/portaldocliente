@@ -16,6 +16,7 @@ class AuthModel extends ChangeNotifier {
   bool _rememberMe = false;
   bool _stayLoggedIn = true;
   bool _useBio = false;
+  String _savedEmail = "";
   ClienteModel _cliente;
 
   /** Toggle de Salvar */
@@ -25,6 +26,15 @@ class AuthModel extends ChangeNotifier {
     _rememberMe = value;
     notifyListeners();
     _localStorage.put('remember_me', value);
+  }
+
+  /** Usar Biometria */
+  String get savedEmail => _savedEmail;
+
+  void saveEmail(String value) {
+    _savedEmail = value;
+    notifyListeners();
+    _localStorage.put('saved_email', value);
   }
 
   /** Usar Biometria */
@@ -63,19 +73,25 @@ class AuthModel extends ChangeNotifier {
   /** Carregar Configurações */
   void loadSettings() async {
     try {
-      _useBio = _localStorage.get("use_bio") ?? false;
+      _useBio = await _localStorage.get("use_bio") ?? false;
     } catch (e) {
       print('Excessão em usar Biometria $e');
       _useBio = false;
     }
     try {
-      _rememberMe = _localStorage.get("remember_me") ?? false;
+      _savedEmail = await _localStorage.get("saved_email") ?? false;
+    } catch (e) {
+      print('Excessão de email salvo $e');
+      _useBio = false;
+    }
+    try {
+      _rememberMe = await _localStorage.get("remember_me") ?? false;
     } catch (e) {
       print('Excessão em lembrar me $e');
       _rememberMe = false;
     }
     try {
-      _stayLoggedIn = _localStorage.get("stay_logged_in") ?? false;
+      _stayLoggedIn = await _localStorage.get("stay_logged_in") ?? false;
     } catch (e) {
       print('Excessão em permanecer logado $e');
       _stayLoggedIn = false;
@@ -84,7 +100,7 @@ class AuthModel extends ChangeNotifier {
     if (_stayLoggedIn) {
       ClienteModel _savedCliente;
       try {
-        String _saved = _localStorage.get("cliente_data") as String;
+        String _saved = await _localStorage.get("cliente_data");
         print("Cliente Salvo: $_saved");
         _savedCliente = ClienteModel.fromJson(json.decode(_saved));
       } catch (e) {
@@ -110,20 +126,20 @@ class AuthModel extends ChangeNotifier {
       //var _newUser = User.fromJson(json.decode(_data.body)["data"]);
       ClienteModel _newCliente = ClienteModel.fromJson({
         "idCliente": 1,
-        "cgcCfo": '083.679.476-14',
-        "email": 'wellytonmarcos@gmail.com',
-        "nome": 'Wellyton Marcos Silva de Oliveira',
-        "foto":
+        "cgccfoCliente": '083.679.476-14',
+        "emailCliente": 'wellytonmarcos@gmail.com',
+        "nomeCliente": 'Wellyton Marcos Silva de Oliveira',
+        "fotoCliente":
             'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRwg9kLDjbiE5BHUms0c4H0Qq-9Erq4FKNI9pUfbzkPez08FxBZ&usqp=CAU',
         "password": '123456',
         "tentativas": 1,
         "lastLogin": 'this.lastLogin',
-        "aceiteTermo": true,
+        "termoAceiteCliente": true,
         "token": 'this.token',
         "refreshToken": 'this.refreshToken'
       });
-      _newCliente?.emailCliente = email;
-      return _newCliente;
+      return _newCliente.emailCliente == email ? _newCliente : null;
+      //_newCliente?.emailCliente == email;
     } catch (e) {
       print("Não foi possivel retornar os dados do cliente: $e");
       return null;
@@ -139,25 +155,21 @@ class AuthModel extends ChangeNotifier {
 
     // TODO: API LOGIN CODE HERE
     await Future.delayed(Duration(seconds: 3));
-    print("Logging In => $_email, $_password");
-
     if (_rememberMe) {
       _localStorage.put('saved_email', _email);
     }
-
+    _localStorage.put('stay_logged_in', true);
     // Get Info For User
     ClienteModel _newCliente = await getInfo(_email);
     if (_newCliente != null) {
       _cliente = _newCliente;
+
       notifyListeners();
-
-      _localStorage.get('saved_cliente').then((prefs) {
-        var _save = json.encode(_cliente.toJson());
-        print("Dados do Cliente: $_save");
-        _localStorage.put("cliente_data", _save);
-      });
+      var _save = json.encode(_cliente.toJson());
+      print("Dados do Cliente a serem salvos: $_save");
+      _localStorage.put("cliente_data", _save);
     }
-
+    errorMessage = "Não foi possível conectar com o e-mail informado!";
     if (_newCliente?.token == null || _newCliente.token.isEmpty) return false;
     return true;
   }

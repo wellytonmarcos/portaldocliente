@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/scheduler.dart';
 import 'package:portaldocliente/constants/colors_constants.dart';
 import 'package:portaldocliente/controllers/splash_controller.dart';
 import 'package:portaldocliente/models/auth_model.dart';
@@ -13,10 +14,19 @@ class SplashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthModel>(builder: (context, _auth, widget) {
+      print(_auth.isBioSetup);
+      print(_auth.stayLoggedIn);
+      print(_auth.savedEmail);
+      print(_auth.cliente);
       if (_auth?.cliente != null) {
-        Timer(Duration(seconds: 2), () => MyNavigator.goToHome(context));
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          MyNavigator.goToHome(context);
+        });
       } else {
-        Timer(Duration(seconds: 2), () => MyNavigator.goToLogin(context));
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          MyNavigator.goToLogin(context);
+          //Timer(Duration(seconds: 6), () => MyNavigator.goToLogin(context));
+        });
       }
       return Scaffold(
         body: Stack(

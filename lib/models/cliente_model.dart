@@ -1,11 +1,10 @@
-
 class ClienteModel {
   int idCliente;
   String nomeCliente;
   String emailCliente;
   String cgccfoCliente;
   String fotoCliente;
-  int termoAceiteCliente;
+  bool termoAceiteCliente;
   String token;
   String refreshToken;
 
@@ -43,8 +42,3 @@ class ClienteModel {
     return data;
   }
 }
-
-
-
-
-
