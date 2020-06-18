@@ -12,6 +12,7 @@ import 'package:portaldocliente/utils/custom_text_util.dart';
 import 'package:portaldocliente/views/globals_components/logo_portal_component.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../utils/my_navigator_util.dart';
 import 'custom_icon_button_widget.dart';
 import 'custom_text_form_field_widget.dart';
 
@@ -35,10 +36,13 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of<AuthModel>(context, listen: true);
-    print(!_loginController.isVisiblePassword);
     if (_auth.rememberMe && _auth.savedEmail.isNotEmpty) {
       _loginController.setEmail(_auth.savedEmail);
     }
+    if (_auth?.cliente != null) {
+      MyNavigator.goToHome(context);
+    }
+
     return SafeArea(
       child: Scaffold(
         key: _loginController.scaffoldKey,

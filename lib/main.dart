@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:portaldocliente/controllers/login_controller.dart';
 import 'package:portaldocliente/views/home/home_view.dart';
 import 'package:portaldocliente/views/login/login_view.dart';
@@ -70,6 +72,7 @@ class _PortalDoClienteState extends State<PortalDoCliente>
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: Consumer<AuthModel>(builder: (context, model, child) {
+            sleep(Duration(seconds: 2));
             if (model?.cliente != null) return HomeView();
             return LoginView();
           }),
