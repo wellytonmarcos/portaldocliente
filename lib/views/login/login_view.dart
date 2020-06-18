@@ -29,28 +29,14 @@ class _LoginViewState extends State<LoginView> {
   @override
   initState() {
     _loginController.setEmail(widget?.email ?? "");
-    _loadEmail();
     super.initState();
-  }
-
-  void _loadEmail() async {
-    // try {
-    //   SharedPreferences _prefs = await SharedPreferences.getInstance();
-    //   var _username = _prefs.getString("saved_email") ?? "";
-    //   var _remeberMe = _prefs.getBool("remember_me") ?? false;
-
-    //   if (_remeberMe) {
-    //     _loginController.setEmail(_username ?? "");
-    //   }
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of<AuthModel>(context, listen: true);
-    if (_auth.rememberMe) {
+    print(!_loginController.isVisiblePassword);
+    if (_auth.rememberMe && _auth.savedEmail.isNotEmpty) {
       _loginController.setEmail(_auth.savedEmail);
     }
     return SafeArea(
@@ -87,12 +73,12 @@ class _LoginViewState extends State<LoginView> {
                                 title: CustomTextFormField(
                                   hint: 'Senha',
                                   prefix: Icon(Icons.lock),
-                                  obscure: !_loginController.isVisiblePassword,
+                                  obscure: _auth.hiddenPassword,
                                   enabled: true,
                                   suffix: CustomIconButton(
                                       radius: 32,
                                       iconData: Icons.visibility,
-                                      onTap: () {}),
+                                      onTap: _auth.handleHiddenPassword),
                                   controller:
                                       _loginController.passwordController,
                                 ),
@@ -101,12 +87,10 @@ class _LoginViewState extends State<LoginView> {
                                 title: CustomText('Salvar e-mail',
                                     FontWeight.w500, kPrimaryColor, 18),
                                 trailing: Switch.adaptive(
-                                    activeColor: kPrimaryColor,
-                                    onChanged: (bool value) {
-                                      //loginController.toggleRemeberMe();
-                                    },
-                                    value: true // loginController.isRememberMe,
-                                    ),
+                                  activeColor: kPrimaryColor,
+                                  onChanged: _auth.handleRememberMe,
+                                  value: _auth.rememberMe,
+                                ),
                               ),
                               ListTile(
                                 title: SizedBox(

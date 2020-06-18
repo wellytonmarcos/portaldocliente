@@ -36,7 +36,8 @@ dependencies:
   flutter_svg: ^0.17.4
   google_fonts: ^1.1.0
   font_awesome_flutter: ^8.8.1
-  local_auth: ^0.6.2+3  
+  local_auth: ^0.6.2+3 
+  pie_chart: ^3.1.1 
 
 dev_dependencies:
   flutter_test:
@@ -59,6 +60,7 @@ flutter:
   assets:
     - assets/logos/
     - assets/images/
+    - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

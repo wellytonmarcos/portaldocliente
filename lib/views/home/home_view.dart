@@ -8,6 +8,7 @@ import 'dart:async';
 import 'package:portaldocliente/models/por_dentro_da_obra_model.dart';
 import 'package:portaldocliente/utils/custom_text_util.dart';
 import 'package:portaldocliente/utils/tile_section_widget.dart';
+import 'package:portaldocliente/views/globals_components/drawer_component.dart';
 import 'package:portaldocliente/views/noticias/pdo/pdo_detail_page.dart';
 
 class HomeView extends StatefulWidget {
@@ -31,110 +32,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
         key: _scaffoldKey,
         backgroundColor: Theme.of(context).backgroundColor,
-        drawer: Stack(
-          children: <Widget>[
-            Positioned(
-              left: MediaQuery.of(context).size.width * 0.05,
-              top: 120,
-              height: 430,
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: 180.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color(0x10000000),
-                        blurRadius: 10,
-                        spreadRadius: 4,
-                        offset: Offset(0.0, 8.0))
-                  ],
-                  color: kWhiteColor,
-                ),
-              ),
-            ),
-            Positioned(
-              left: MediaQuery.of(context).size.width * 0.05,
-              top: 140,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Text(
-                'Menu',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: kAccentColor,
-                ),
-              ),
-            ),
-            Positioned(
-              left: MediaQuery.of(context).size.width * 0.08,
-              top: 180,
-              width: MediaQuery.of(context).size.width * 0.84,
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      _buttonMenu('Menu\nFinanceiro', 'Resumo Financeiro',
-                          FontAwesomeIcons.wallet, context, '/financeiro'),
-                      _buttonMenu(
-                          'Meus\nBoletos',
-                          'Acessar por Dentro da Obra',
-                          FontAwesomeIcons.barcode,
-                          context,
-                          '/porDentroDaObra'),
-                      _buttonMenu('Parcelas\nSN', 'Informativos',
-                          FontAwesomeIcons.listAlt, context, '/informativos'),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      _buttonMenu('Evolução\nDa Obra', 'Evolução da Obra',
-                          FontAwesomeIcons.chartLine, context, '/financeiro'),
-                      _buttonMenu(
-                          'Por Dentro \nDa Obra',
-                          'Acessar por Dentro da Obra',
-                          FontAwesomeIcons.newspaper,
-                          context,
-                          '/porDentroDaObra'),
-                      _buttonMenu('Boletins\nInformativos', 'Informativos',
-                          FontAwesomeIcons.info, context, '/informativos'),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      _buttonMenu('Meus\nAtendimentos', 'Evolução da Obra',
-                          FontAwesomeIcons.comments, context, '/financeiro'),
-                      _buttonMenu(
-                          'Perguntas\nFrequentes',
-                          'Acessar por Dentro da Obra',
-                          FontAwesomeIcons.question,
-                          context,
-                          '/porDentroDaObra'),
-                      _buttonMenu(
-                          'Documentos',
-                          'Informativos',
-                          FontAwesomeIcons.fileContract,
-                          context,
-                          '/informativos'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              right: MediaQuery.of(context).size.width * 0.05,
-              top: 120,
-              child: IconButton(
-                icon: FaIcon(FontAwesomeIcons.timesCircle,
-                    size: 30, color: kAccentColor),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-          ],
-        ),
+        drawer: AppDrawer(),
         appBar: AppBar(
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0,
@@ -464,7 +362,7 @@ class _HomeViewState extends State<HomeView> {
                     offset: Offset(0.0, 8.0))
               ],
               color: snapshot.data["data"][index]['isVencido'] == "1"
-                  ? Colors.red
+                  ? Colors.red.withAlpha(100)
                   : kWhiteColor),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -508,7 +406,7 @@ class _HomeViewState extends State<HomeView> {
                   IconButton(
                     icon: FaIcon(
                       FontAwesomeIcons.barcode,
-                      color: kAccentColor,
+                      color: Colors.green,
                     ),
                     tooltip: 'Copiar código de barras',
                     onPressed: () {
@@ -524,7 +422,7 @@ class _HomeViewState extends State<HomeView> {
                   IconButton(
                     icon: FaIcon(
                       FontAwesomeIcons.envelope,
-                      color: kAccentColor,
+                      color: Colors.blue,
                     ),
                     tooltip: 'Enviar Boleto por E-mail',
                     onPressed: () {
@@ -533,6 +431,20 @@ class _HomeViewState extends State<HomeView> {
                               size: 55, color: kAccentColor),
                           'Enviado!',
                           'Enviamos o boleto para seu e-mail, caso não receba em 5 minutos, contate nosso suporte!');
+                    },
+                  ),
+                  IconButton(
+                    icon: FaIcon(
+                      FontAwesomeIcons.filePdf,
+                      color: Colors.red,
+                    ),
+                    tooltip: 'Fazer Download',
+                    onPressed: () {
+                      _showDialogInfo(
+                          FaIcon(FontAwesomeIcons.envelope,
+                              size: 55, color: kAccentColor),
+                          'Aguarde!',
+                          'Estamos gerando o boleto, aguarde um momento!');
                     },
                   ),
                   SizedBox(

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:portaldocliente/app/constants/color_constant.dart';
+import 'package:portaldocliente/constants/colors_constants.dart';
 import 'dart:async';
 
-import 'package:portaldocliente/app/models/por_dentro_da_obra_model.dart';
-import 'package:portaldocliente/app/views/noticias/por_dentro_da_obra/pdo_detail_page.dart';
+import 'package:portaldocliente/models/por_dentro_da_obra_model.dart';
+import 'package:portaldocliente/views/noticias/pdo/pdo_detail_page.dart';
 
 class PdoListView extends StatelessWidget {
   PorDentroDaObraModel pdomodel = PorDentroDaObraModel();

@@ -14,6 +14,7 @@ class AuthModel extends ChangeNotifier {
   String errorMessage = "";
 
   bool _rememberMe = false;
+  bool _hiddenPassword = true;
   bool _stayLoggedIn = true;
   bool _useBio = false;
   String _savedEmail = "";
@@ -26,6 +27,14 @@ class AuthModel extends ChangeNotifier {
     _rememberMe = value;
     notifyListeners();
     _localStorage.put('remember_me', value);
+  }
+
+  /** Toggle de Hidden Passorwd */
+  bool get hiddenPassword => _hiddenPassword;
+
+  void handleHiddenPassword() {
+    _hiddenPassword = !_hiddenPassword;
+    notifyListeners();
   }
 
   /** Usar Biometria */
