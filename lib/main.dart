@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:portaldocliente/controllers/login_controller.dart';
+import 'package:portaldocliente/themes/custom_theme.dart';
 import 'package:portaldocliente/views/home/home_view.dart';
 import 'package:portaldocliente/views/login/login_view.dart';
 import 'package:portaldocliente/views/logout/logout_view.dart';
@@ -8,7 +9,6 @@ import 'package:portaldocliente/views/splash/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'constants/colors_constants.dart';
 import 'models/auth_model.dart';
 import 'utils/my_navigator_util.dart';
 import 'views/financeiro/financeiro_view.dart';
@@ -66,11 +66,7 @@ class _PortalDoClienteState extends State<PortalDoCliente>
       child: MaterialApp(
           title: 'Portal do Cliente',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primaryColor: kAccentColor,
-            backgroundColor: kBackgroundColor,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+          theme: appTheme(),
           home: Consumer<AuthModel>(builder: (context, model, child) {
             sleep(Duration(seconds: 2));
             if (model?.cliente != null) return HomeView();

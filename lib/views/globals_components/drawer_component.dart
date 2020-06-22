@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:portaldocliente/constants/colors_constants.dart';
 import 'package:portaldocliente/models/auth_model.dart';
+import 'package:portaldocliente/themes/custom_theme.dart';
 import 'package:portaldocliente/utils/circular_image_util.dart';
 import 'package:portaldocliente/utils/custom_text_util.dart';
 import 'package:provider/provider.dart';

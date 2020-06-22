@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:portaldocliente/constants/colors_constants.dart';
+import 'package:portaldocliente/themes/custom_theme.dart';
 
 class pdoSelectedView extends StatelessWidget {
   final Map _pdoData;

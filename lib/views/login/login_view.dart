@@ -1,16 +1,12 @@
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:portaldocliente/constants/colors_constants.dart';
 import 'package:portaldocliente/controllers/login_controller.dart';
 import 'package:portaldocliente/models/auth_model.dart';
 import 'package:flutter/material.dart';
-import 'package:portaldocliente/utils/pop_up_util.dart';
-import 'package:portaldocliente/views/home/home_view.dart';
+import 'package:portaldocliente/themes/custom_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:portaldocliente/utils/my_navigator_util.dart';
 import 'package:portaldocliente/utils/custom_text_util.dart';
 import 'package:portaldocliente/views/globals_components/logo_portal_component.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/my_navigator_util.dart';
 import 'custom_icon_button_widget.dart';
@@ -103,8 +99,13 @@ class _LoginViewState extends State<LoginView> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(32),
                                       ),
-                                      child: CustomText('Login',
-                                          FontWeight.w500, kWhiteColor, 18),
+                                      child: Text("Login",
+                                          style: gFont(
+                                              myTextStyle: TextStyle(
+                                                  color: kWhiteColor,
+                                                  fontSize: 16))),
+                                      // child: CustomText('Login',
+                                      //     FontWeight.w500, kWhiteColor, 18),
                                       color: kPrimaryColor,
                                       disabledColor:
                                           kPrimaryColor.withAlpha(100),

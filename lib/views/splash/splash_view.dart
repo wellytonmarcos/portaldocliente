@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/scheduler.dart';
-import 'package:portaldocliente/constants/colors_constants.dart';
-import 'package:portaldocliente/controllers/splash_controller.dart';
 import 'package:portaldocliente/models/auth_model.dart';
+import 'package:portaldocliente/themes/custom_theme.dart';
 import 'package:portaldocliente/utils/my_navigator_util.dart';
 import 'package:portaldocliente/utils/custom_text_util.dart';
 import 'package:portaldocliente/views/globals_components/logo_portal_component.dart';

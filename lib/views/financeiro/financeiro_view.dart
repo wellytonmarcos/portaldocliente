@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:portaldocliente/constants/colors_constants.dart';
 import 'package:portaldocliente/models/financeiro_model.dart';
+import 'package:portaldocliente/themes/custom_theme.dart';
 
 class FinanceiroView extends StatelessWidget {
   FinanceiroModel financeiro = FinanceiroModel();
