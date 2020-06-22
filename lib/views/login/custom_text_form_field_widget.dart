@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:portaldocliente/constants/colors_constants.dart';
 import 'package:portaldocliente/themes/custom_theme.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -29,7 +28,6 @@ class CustomTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //controller.text = defaultValue ?? "";
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,

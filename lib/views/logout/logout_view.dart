@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/scheduler.dart';
-import 'package:portaldocliente/constants/colors_constants.dart';
 import 'package:portaldocliente/controllers/splash_controller.dart';
 import 'package:portaldocliente/models/auth_model.dart';
 import 'package:portaldocliente/themes/custom_theme.dart';
